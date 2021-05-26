@@ -1,41 +1,20 @@
-version: '3'
+version: '3.3'
 services:
-  wordpress_db:
+  my-test-app:
     restart: always
-    container_name: docker-mysql
-    image: mysql
-    environment:
-      MYSQL_DATABASE: wordpress_data
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_ROOT_HOST: '%'
-    volumes:
-      - ./sql:/docker-entrypoint-initdb.d
+    container_name: container-my-test-app
+    image: indrajeet007/my-test-app
+    
     ports:
-      - "6033:3306"
-    healthcheck:
-      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
-      interval: 2s
-      timeout: 20s
-      retries: 10
+      - "8080:80"
 
-  wordpress:
+  db:
     restart: on-failure
-    image: wordpress
-    links:
-    - wordpress_db:mysql
+    image: mysql:latest
     ports:
-    - "8080:80"
+    - "3306:3306"
     environment:
-      WAIT_HOST: mysql:3306
-    depends_on:
-    - wordpress_db
-
-  phpmyadmin:
-    image: corbinu/docker-phpmyadmin
-    links:
-    - wordpress_db:mysql
-    ports:
-    - 8081:80
-    environment:
-      MYSQL_USERNAME: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 'test_db'
+      MYSQL_USER: 'admin'
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_PASSWORD: 'root'
