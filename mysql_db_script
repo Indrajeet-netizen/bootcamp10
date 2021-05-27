@@ -1,0 +1,3 @@
+create table test (id integer, name varchar(100), age integer);
+		insert into test (id, name, age) values (1, 'Indrajeet', '26');
+select * from scientist;
