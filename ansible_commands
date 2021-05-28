@@ -1,0 +1,27 @@
+Slave:
+indrajeet_tcs007@applicationserver
+indrajeet_tcs007@10.128.0.5
+indrajeet_tcs007@34.68.92.235
+
+Master: build_machine
+
+
+ssh-keygen
+ssh -i master indrajeet_tcs007@applicationserver
+sudo apt-add-repository ppa:ansible/ansible
+Sudo apt update
+Sudo apt install sensible
+ ansible_user= indrajeet_tcs007
+ ansible_ssh_private_key_file=/home/indrajeet_tcs007/.ssh/master
+
+sudo git clone https://github.com/shubhamkushwah123/war-test.git
+
+
+FROM library/tomcat
+ADD target/war-test.war /usr/local/tomcat/webapps
+CMD "catalina.sh" "run"
+
+docker build -t indrajeet007/tomcat-test:1.0.1 .
+
+docker run -itd -p 8081:80 indrajeet007/tomcat-test:1.0.1
+docker push indrajeet007/tomcat-test:1.0.1
