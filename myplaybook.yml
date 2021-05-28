@@ -1,0 +1,40 @@
+--- 
+- 
+  become: true
+  hosts: all
+  tasks: 
+    - 
+      apt: 
+        pkg: default-jre
+        state: present
+      name: "install package jre"
+    - 
+      apt: 
+        pkg: default-jdk
+        state: present
+      name: "install package jdk"
+    - 
+      apt: 
+        pkg: maven
+        state: present
+      name: "install package maven"
+    - 
+      apt: 
+        pkg: nginx
+        state: present
+      name: "install nginx"
+    - 
+      apt: 
+        pkg: docker.io
+        state: present
+      name: "install docker"
+    - 
+      name: "start docker service"
+      service: 
+        enabled: true
+        name: docker
+        state: started
+    - 
+      name: "test application"
+      command: "sudo docker run -it -d -p 8086:8080 indrajeet007/tomcat-test:1.0.1"
+
